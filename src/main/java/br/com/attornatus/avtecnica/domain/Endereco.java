@@ -1,5 +1,6 @@
 package br.com.attornatus.avtecnica.domain;
 
+import br.com.attornatus.avtecnica.controller.dto.DadosCadastroEndereco;
 import jakarta.persistence.Embeddable;
 
 @Embeddable
@@ -20,6 +21,13 @@ public class Endereco {
 
 	public Endereco() {
 		super();
+	}
+
+	public Endereco(DadosCadastroEndereco dadosCadastroEndereco) {
+		this.cep = dadosCadastroEndereco.cep();
+		this.cidade = dadosCadastroEndereco.cep();
+		this.logradouro = dadosCadastroEndereco.logradouro();
+		this.numero = dadosCadastroEndereco.numero();
 	}
 
 	public String getLogradouro() {

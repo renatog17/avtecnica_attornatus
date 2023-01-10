@@ -2,11 +2,13 @@ package br.com.attornatus.avtecnica.domain;
 
 import java.time.LocalDate;
 
+import br.com.attornatus.avtecnica.controller.dto.DadosCadastroPessoa;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.Valid;
 
 @Entity
 public class Pessoa {
@@ -29,6 +31,12 @@ public class Pessoa {
 	public Pessoa() {
 		super();
 		// TODO Auto-generated constructor stub
+	}
+
+	public Pessoa(DadosCadastroPessoa dadosCadastroPessoa) {
+		this.nome = dadosCadastroPessoa.nome();
+		this.dataNascimento = dadosCadastroPessoa.dataNascimento();
+		this.endereco = new Endereco(dadosCadastroPessoa.endereco());
 	}
 
 	public Long getId() {
