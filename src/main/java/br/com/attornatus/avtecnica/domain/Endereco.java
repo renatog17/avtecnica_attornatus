@@ -1,22 +1,34 @@
 package br.com.attornatus.avtecnica.domain;
 
 import br.com.attornatus.avtecnica.controller.dto.DadosCadastroEndereco;
-import jakarta.persistence.Embeddable;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
-@Embeddable
+@Entity
 public class Endereco {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	private String logradouro;
 	private String cep;
 	private String numero;
 	private String cidade;
+	@ManyToOne
+	@JoinColumn(name = "pessoa_id")
+	private Pessoa pessoa;
 
-	public Endereco(String logradouro, String cep, String numero, String cidade) {
+	public Endereco(String logradouro, String cep, String numero, String cidade, Pessoa pessoa) {
 		super();
 		this.logradouro = logradouro;
 		this.cep = cep;
 		this.numero = numero;
 		this.cidade = cidade;
+		this.pessoa = pessoa;
 	}
 
 	public Endereco() {
@@ -60,6 +72,14 @@ public class Endereco {
 
 	public void setCidade(String cidade) {
 		this.cidade = cidade;
+	}
+
+	public Pessoa getPessoa() {
+		return pessoa;
+	}
+
+	public void setPessoa(Pessoa pessoa) {
+		this.pessoa = pessoa;
 	}
 
 }

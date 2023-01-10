@@ -1,31 +1,32 @@
 package br.com.attornatus.avtecnica.domain;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import br.com.attornatus.avtecnica.controller.dto.DadosCadastroPessoa;
-import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.validation.Valid;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Pessoa {
 
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String nome;
 	private LocalDate dataNascimento;
-	@Embedded
-	private Endereco endereco;
+	@OneToMany(mappedBy = "pessoa")
+	private List<Endereco> enderecos = new ArrayList<>();
 
-	public Pessoa(Long id, String nome, LocalDate dataNascimento, Endereco endereco) {
+	public Pessoa(String nome, LocalDate dataNascimento, List<Endereco> enderecos) {
 		super();
-		this.id = id;
 		this.nome = nome;
 		this.dataNascimento = dataNascimento;
-		this.endereco = endereco;
+		this.enderecos = enderecos;
 	}
 
 	public Pessoa() {
@@ -36,7 +37,7 @@ public class Pessoa {
 	public Pessoa(DadosCadastroPessoa dadosCadastroPessoa) {
 		this.nome = dadosCadastroPessoa.nome();
 		this.dataNascimento = dadosCadastroPessoa.dataNascimento();
-		this.endereco = new Endereco(dadosCadastroPessoa.endereco());
+		this.enderecos.add(new Endereco(dadosCadastroPessoa.endereco()));
 	}
 
 	public Long getId() {
@@ -63,12 +64,12 @@ public class Pessoa {
 		this.dataNascimento = dataNascimento;
 	}
 
-	public Endereco getEndereco() {
-		return endereco;
+	public List<Endereco> getEnderecos() {
+		return enderecos;
 	}
 
-	public void setEndereco(Endereco endereco) {
-		this.endereco = endereco;
+	public void setEnderecos(List<Endereco> enderecos) {
+		this.enderecos = enderecos;
 	}
 
 }

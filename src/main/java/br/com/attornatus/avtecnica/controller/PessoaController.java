@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.attornatus.avtecnica.controller.dto.DadosCadastroPessoa;
+import br.com.attornatus.avtecnica.domain.Endereco;
 import br.com.attornatus.avtecnica.domain.Pessoa;
+import br.com.attornatus.avtecnica.repositories.EnderecoRepository;
 import br.com.attornatus.avtecnica.repositories.PessoaRepository;
 import jakarta.validation.Valid;
 
@@ -17,11 +19,17 @@ import jakarta.validation.Valid;
 public class PessoaController {
 
 	@Autowired
-	PessoaRepository repository;
+	PessoaRepository pessoaRepository;
+	@Autowired
+	EnderecoRepository enderecoRepository;
 	
 	@PostMapping
 	@Transactional
 	public void cadastrar(@RequestBody @Valid DadosCadastroPessoa dadosCadastroPessoa) {
-			repository.save(new Pessoa(dadosCadastroPessoa));
+		Pessoa pessoa = new Pessoa(dadosCadastroPessoa);
+		pessoaRepository.save(pessoa);
+		Endereco endereco = new Endereco(dadosCadastroPessoa.endereco());
+		endereco.setPessoa(pessoa);
+		enderecoRepository.save(endereco);
 	}
 }

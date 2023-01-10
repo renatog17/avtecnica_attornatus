@@ -12,7 +12,6 @@ public record DadosCadastroPessoa(
 		String nome,
 		@NotNull
 		LocalDate dataNascimento,
-		@NotNull
 		@Valid
 		DadosCadastroEndereco endereco) {
 
