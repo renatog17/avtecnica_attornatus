@@ -79,4 +79,11 @@ public class PessoaController {
 		List<DadosConsultaEndereco> enderecos = enderecoRepository.findAllByPessoaId(idPessoa).stream().map(DadosConsultaEndereco::new).toList();
 		return enderecos;
 	}
+	
+	@PutMapping("/{idPessoa}/{idEndereco}")
+	@Transactional
+	public void definirEnderecoPrincipal(@PathVariable Long idPessoa, @PathVariable Long idEndereco) {
+		Endereco endereco = enderecoRepository.findByPessoaIdAndId(idPessoa, idEndereco);
+		endereco.setPrincipal(true);
+	}
 }

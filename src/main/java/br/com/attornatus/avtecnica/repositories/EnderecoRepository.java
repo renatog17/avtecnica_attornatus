@@ -9,4 +9,6 @@ import br.com.attornatus.avtecnica.domain.Endereco;
 public interface EnderecoRepository extends JpaRepository<Endereco, Long>{
 
 	List<Endereco> findAllByPessoaId(Long id);
+	
+	Endereco findByPessoaIdAndId(Long idPessoa, Long idEndereco);
 }
