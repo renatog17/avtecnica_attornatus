@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.attornatus.avtecnica.controller.dto.DadosCadastroEndereco;
 import br.com.attornatus.avtecnica.controller.dto.DadosCadastroPessoa;
 import br.com.attornatus.avtecnica.controller.dto.DadosConsultaPessoa;
 import br.com.attornatus.avtecnica.controller.dto.DadosEditarPessoa;
@@ -60,5 +61,14 @@ public class PessoaController {
 	@GetMapping
 	public Page<DadosConsultaPessoa> listarPessoas(@PageableDefault(size=10, sort = {"nome"}) Pageable paginacao){
 		return pessoaRepository.findAll(paginacao).map(DadosConsultaPessoa::new);
+	}
+	
+	@PostMapping("/{idPessoa}/endereco")
+	@Transactional
+	public void cadastrarEndereco(@PathVariable Long idPessoa, @RequestBody DadosCadastroEndereco dadosCadastroEndereco) {
+		Endereco endereco = new Endereco(dadosCadastroEndereco);
+		Pessoa pessoa = pessoaRepository.getReferenceById(idPessoa);
+		endereco.setPessoa(pessoa);
+		enderecoRepository.save(endereco);
 	}
 }
