@@ -1,10 +1,13 @@
 package br.com.attornatus.avtecnica.domain;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import br.com.attornatus.avtecnica.controller.dto.DadosCadastroPessoa;
+import br.com.attornatus.avtecnica.controller.dto.DadosConsultaPessoa;
+import br.com.attornatus.avtecnica.controller.dto.DadosEditarPessoa;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,7 +15,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
 @Entity
-public class Pessoa {
+public class Pessoa implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,6 +43,20 @@ public class Pessoa {
 		this.enderecos.add(new Endereco(dadosCadastroPessoa.endereco()));
 	}
 
+	public void atualizarDados(DadosEditarPessoa dadosEditarPessoa) {
+		if(dadosEditarPessoa.dataNascimento() != null) {
+			this.dataNascimento = dadosEditarPessoa.dataNascimento();
+		}
+		if(dadosEditarPessoa.nome() != null) {
+			this.nome = dadosEditarPessoa.nome();
+		}
+	}
+	
+	public DadosConsultaPessoa toDtoDadosContultaUmaPessoa() {
+		DadosConsultaPessoa dadosConsultaUmaPessoa = new DadosConsultaPessoa(nome, dataNascimento);
+		return dadosConsultaUmaPessoa;
+	}
+	
 	public Long getId() {
 		return id;
 	}
