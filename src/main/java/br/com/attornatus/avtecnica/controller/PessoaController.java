@@ -1,5 +1,6 @@
 package br.com.attornatus.avtecnica.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.attornatus.avtecnica.controller.dto.DadosCadastroEndereco;
 import br.com.attornatus.avtecnica.controller.dto.DadosCadastroPessoa;
+import br.com.attornatus.avtecnica.controller.dto.DadosConsultaEndereco;
 import br.com.attornatus.avtecnica.controller.dto.DadosConsultaPessoa;
 import br.com.attornatus.avtecnica.controller.dto.DadosEditarPessoa;
 import br.com.attornatus.avtecnica.domain.Endereco;
@@ -70,5 +72,11 @@ public class PessoaController {
 		Pessoa pessoa = pessoaRepository.getReferenceById(idPessoa);
 		endereco.setPessoa(pessoa);
 		enderecoRepository.save(endereco);
+	}
+	
+	@GetMapping("/{idPessoa}/enderecos")
+	public List<DadosConsultaEndereco> listarEnderecosPorPessoa(@PathVariable Long idPessoa, @PageableDefault(size=10, sort = {"logradouro"}) Pageable paginacao){
+		List<DadosConsultaEndereco> enderecos = enderecoRepository.findAllByPessoaId(idPessoa).stream().map(DadosConsultaEndereco::new).toList();
+		return enderecos;
 	}
 }

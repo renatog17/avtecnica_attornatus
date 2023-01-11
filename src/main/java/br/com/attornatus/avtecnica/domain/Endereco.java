@@ -8,6 +8,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
+/**
+ * @author renat
+ *
+ */
 @Entity
 public class Endereco {
 
@@ -39,7 +43,7 @@ public class Endereco {
 
 	public Endereco(DadosCadastroEndereco dadosCadastroEndereco) {
 		this.cep = dadosCadastroEndereco.cep();
-		this.cidade = dadosCadastroEndereco.cep();
+		this.cidade = dadosCadastroEndereco.cidade();
 		this.logradouro = dadosCadastroEndereco.logradouro();
 		this.numero = dadosCadastroEndereco.numero();
 	}
@@ -98,6 +102,12 @@ public class Endereco {
 
 	public void setPrincipal(Boolean principal) {
 		this.principal = principal;
+	}
+
+	@Override
+	public String toString() {
+		return "Endereco [id=" + id + ", logradouro=" + logradouro + ", cep=" + cep + ", numero=" + numero + ", cidade="
+				+ cidade + ", principal=" + principal + ", pessoa=" + pessoa + "]";
 	}
 
 }
